@@ -1,0 +1,475 @@
+# Copyright (C) 2026 Rocket Venture Labs
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Voris — Privacy-first Analytics 0.1.3\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/voris\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-09-16T20:44:21+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: voris\n"
+
+#. Plugin Name of the plugin
+#: voris.php
+msgid "Voris — Privacy-first Analytics"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: voris.php
+msgid "https://voris.ai"
+msgstr ""
+
+#. Description of the plugin
+#: voris.php
+msgid "Sends analytics to Voris, a privacy-first customer data platform."
+msgstr ""
+
+#. Author of the plugin
+#: voris.php
+msgid "Rocket Venture Labs"
+msgstr ""
+
+#: admin/class-voris-admin-page.php:105
+msgid "Voris settings saved. If your site uses a page cache, purge it so visitors get the updated tracking setup."
+msgstr ""
+
+#: admin/class-voris-admin-page.php:116
+#: admin/class-voris-admin-page.php:117
+#: admin/class-voris-admin-page.php:392
+msgid "Voris"
+msgstr ""
+
+#: admin/class-voris-admin-page.php:138
+msgid "Settings"
+msgstr ""
+
+#: admin/class-voris-admin-page.php:154
+msgid "Connection"
+msgstr ""
+
+#: admin/class-voris-admin-page.php:161
+msgid "Site ID"
+msgstr ""
+
+#: admin/class-voris-admin-page.php:170
+#: admin/class-voris-admin-page.php:314
+msgid "Tracking"
+msgstr ""
+
+#: admin/class-voris-admin-page.php:177
+msgid "Collect analytics"
+msgstr ""
+
+#: admin/class-voris-admin-page.php:185
+msgid "Data"
+msgstr ""
+
+#: admin/class-voris-admin-page.php:192
+msgid "When uninstalling"
+msgstr ""
+
+#: admin/class-voris-admin-page.php:206
+#: assets/js/connect.js:135
+msgid "Connected. Voris is receiving data from this site."
+msgstr ""
+
+#: admin/class-voris-admin-page.php:210
+msgid "Finishing connecting to Voris…"
+msgstr ""
+
+#: admin/class-voris-admin-page.php:212
+msgid "Not connected. Connect your Voris account, or add a site ID below."
+msgstr ""
+
+#. translators: 1: Privacy Policy link, 2: Terms of Service link.
+#: admin/class-voris-admin-page.php:224
+#, php-format
+msgid "Connecting sends this site&#8217;s analytics to Voris, an external service operated by Rocket Venture Labs B.V. See what is shared in the %1$s and %2$s."
+msgstr ""
+
+#: admin/class-voris-admin-page.php:225
+msgid "Privacy Policy"
+msgstr ""
+
+#: admin/class-voris-admin-page.php:226
+msgid "Terms of Service"
+msgstr ""
+
+#: admin/class-voris-admin-page.php:250
+msgid "Resume connection"
+msgstr ""
+
+#: admin/class-voris-admin-page.php:250
+msgid "Connect to Voris"
+msgstr ""
+
+#: admin/class-voris-admin-page.php:259
+msgid "Approve this connection in Voris:"
+msgstr ""
+
+#: admin/class-voris-admin-page.php:260
+msgid "Open the Voris approval page"
+msgstr ""
+
+#: admin/class-voris-admin-page.php:272
+msgid "Disconnect"
+msgstr ""
+
+#: admin/class-voris-admin-page.php:299
+msgid "Managed by your connected Voris account. Disconnect to edit this manually."
+msgstr ""
+
+#: admin/class-voris-admin-page.php:300
+msgid "Find this in your site’s settings in app.voris.ai. It looks like 3f2504e0-4f89-41d3-9a0c-0305e82c3301. Leave it empty to disconnect."
+msgstr ""
+
+#: admin/class-voris-admin-page.php:315
+msgid "Send pageviews and Core Web Vitals to Voris"
+msgstr ""
+
+#: admin/class-voris-admin-page.php:316
+msgid "Turning this off removes the tracking tag from your site. Nothing is sent while it is off."
+msgstr ""
+
+#: admin/class-voris-admin-page.php:329
+msgid "Uninstall behaviour"
+msgstr ""
+
+#: admin/class-voris-admin-page.php:330
+msgid "Keep my settings if I uninstall Voris"
+msgstr ""
+
+#: admin/class-voris-admin-page.php:331
+msgid "By default, uninstalling removes everything this plugin stored. Deactivating never deletes anything."
+msgstr ""
+
+#: admin/class-voris-admin-page.php:379
+msgid "You do not have permission to manage Voris settings."
+msgstr ""
+
+#: admin/class-voris-admin-page.php:429
+msgid "Privacy &amp; data sharing"
+msgstr ""
+
+#: admin/class-voris-admin-page.php:432
+msgid "Privacy mode"
+msgstr ""
+
+#: admin/class-voris-admin-page.php:435
+msgid "This plugin runs in Voris Mode A by default: it is cookieless, creates no visitor, session, or user identifier, and needs no cookie banner. Voris resolves the exact privacy mode server-side, per visitor region — the plugin never sets or changes it, and never sends anything mode-specific."
+msgstr ""
+
+#: admin/class-voris-admin-page.php:439
+msgid "Mode A is strictly aggregated and cookie-free. Mode B and Mode C add session-based identifiers that Voris derives on its own servers; on those modes, obtaining consent is part of your own legal setup, not something this plugin decides. Your mode is configured in app.voris.ai."
+msgstr ""
+
+#: admin/class-voris-admin-page.php:443
+msgid "Consent"
+msgstr ""
+
+#: admin/class-voris-admin-page.php:450
+msgid "What Voris receives from this site"
+msgstr ""
+
+#: admin/class-voris-admin-page.php:453
+msgid "From the tracking tag: page views and Core Web Vitals (loading-speed measurements). In Mode A these set no cookies and carry no identifier."
+msgstr ""
+
+#: admin/class-voris-admin-page.php:459
+msgid "From WooCommerce, for each completed order: the order total, its currency, and the number of items, with the order ID as a reference. Refunds are sent as negative corrections."
+msgstr ""
+
+#: admin/class-voris-admin-page.php:465
+msgid "Never sent: customer names, email or postal addresses, or any other personal data; product or line-item details; your visitors&#8217; IP addresses; and no visitor, session, or user identifier."
+msgstr ""
+
+#. translators: %s: the detected consent plugin's name.
+#: admin/class-voris-admin-page.php:485
+#, php-format
+msgid "%s is active, and the WP Consent API is available. Voris is registered as a consent-aware plugin, so its tracking tag waits for statistics consent before it loads."
+msgstr ""
+
+#: admin/class-voris-admin-page.php:491
+msgid "A consent plugin that supports the WP Consent API is active. Voris is registered as consent-aware, so its tracking tag waits for statistics consent before it loads."
+msgstr ""
+
+#. translators: 1: the detected consent plugin's name, 2: the same name again.
+#: admin/class-voris-admin-page.php:497
+#, php-format
+msgid "We detected %1$s, but it does not use the WP Consent API, so Voris cannot read its consent state automatically. In Mode A no consent is required; for Mode B or C, configure %2$s to cover analytics."
+msgstr ""
+
+#: admin/class-voris-admin-page.php:503
+msgid "No consent-management plugin was detected. In Mode A, Voris is cookieless and needs no consent banner. If your Voris account uses Mode B or C, consent is your responsibility — a plugin that supports the WP Consent API will integrate with Voris automatically."
+msgstr ""
+
+#: admin/class-voris-admin-page.php:534
+msgid "Open Voris"
+msgstr ""
+
+#: admin/class-voris-admin-page.php:542
+msgid "Dismiss"
+msgstr ""
+
+#: admin/class-voris-admin-page.php:566
+msgid "Plan & usage"
+msgstr ""
+
+#: admin/class-voris-admin-page.php:571
+msgid "Voris could not be reached to refresh these figures. Showing the last known usage."
+msgstr ""
+
+#: admin/class-voris-admin-page.php:582
+msgid "Usage has not yet been measured this billing period."
+msgstr ""
+
+#. translators: 1: events used, 2: monthly cap, 3: percentage.
+#: admin/class-voris-admin-page.php:599
+#, php-format
+msgid "%1$s of %2$s events used this billing period (%3$d%%)."
+msgstr ""
+
+#: admin/class-voris-admin-page.php:610
+msgid "Share of your monthly event allowance used"
+msgstr ""
+
+#. translators: %s: human-readable date and time Voris last measured usage.
+#: admin/class-voris-admin-page.php:620
+#, php-format
+msgid "As of %s."
+msgstr ""
+
+#: admin/class-voris-admin-page.php:641
+msgid "Delivery log"
+msgstr ""
+
+#: admin/class-voris-admin-page.php:646
+msgid "No delivery failures. Everything this site sent has reached Voris."
+msgstr ""
+
+#: admin/class-voris-admin-page.php:654
+msgid "Events that could not be delivered. Visitors never see these; page rendering and checkout are unaffected."
+msgstr ""
+
+#: admin/class-voris-admin-page.php:658
+msgid "When"
+msgstr ""
+
+#: admin/class-voris-admin-page.php:659
+msgid "Event"
+msgstr ""
+
+#: admin/class-voris-admin-page.php:660
+msgid "Order"
+msgstr ""
+
+#: admin/class-voris-admin-page.php:661
+msgid "Event ID"
+msgstr ""
+
+#: admin/class-voris-admin-page.php:662
+msgid "Reason"
+msgstr ""
+
+#: admin/class-voris-admin-page.php:724
+msgid "Dropped — too many events were waiting to be sent."
+msgstr ""
+
+#: admin/class-voris-admin-page.php:728
+msgid "Not reported — Voris never received the original order, so a correction would show negative revenue against a sale it has no record of."
+msgstr ""
+
+#: admin/class-voris-admin-page.php:732
+msgid "Not reported — the order carried no revenue Voris could record."
+msgstr ""
+
+#: admin/class-voris-admin-page.php:736
+msgid "Could not be prepared for sending. Check the order for unusual characters."
+msgstr ""
+
+#: admin/class-voris-admin-page.php:740
+msgid "Voris did not recognise this site ID. Check the Connection setting above."
+msgstr ""
+
+#: admin/class-voris-admin-page.php:744
+msgid "Voris rejected the event."
+msgstr ""
+
+#: admin/class-voris-admin-page.php:748
+msgid "Voris could not be reached after three attempts."
+msgstr ""
+
+#: admin/class-voris-admin-page.php:757
+msgid "Not delivered. See the event and order references above."
+msgstr ""
+
+#. translators: 1: minimum WordPress version, 2: minimum PHP version
+#: includes/class-voris-lifecycle.php:77
+#, php-format
+msgid "Voris requires WordPress %1$s or newer and PHP %2$s or newer. Nothing has been changed on your site."
+msgstr ""
+
+#: includes/class-voris-nudge.php:124
+msgid "Your Voris workspace is limited"
+msgstr ""
+
+#: includes/class-voris-nudge.php:125
+msgid "Your Voris workspace is locked"
+msgstr ""
+
+#: includes/class-voris-nudge.php:127
+msgid "Some features are paused because of a billing issue. Resolve it to restore full access."
+msgstr ""
+
+#: includes/class-voris-nudge.php:128
+msgid "Voris has paused data collection because of a billing issue. Resolve it to resume tracking."
+msgstr ""
+
+#: includes/class-voris-nudge.php:140
+msgid "A Voris payment is needed"
+msgstr ""
+
+#: includes/class-voris-nudge.php:141
+msgid "Your payment is past due. Update your billing details in Voris to avoid interruption."
+msgstr ""
+
+#. translators: %d: whole-number percentage of the monthly event allowance used.
+#: includes/class-voris-nudge.php:185
+#, php-format
+msgid "You've used %d%% of your monthly event allowance"
+msgstr ""
+
+#: includes/class-voris-nudge.php:186
+msgid "Consider upgrading to avoid an interruption if you reach your limit this billing period."
+msgstr ""
+
+#. translators: %s: human-readable trial end date.
+#: includes/class-voris-nudge.php:207
+#, php-format
+msgid "Voris is still recording your events during your trial, which ends %s. Upgrade to keep full tracking afterward."
+msgstr ""
+
+#: includes/class-voris-nudge.php:208
+msgid "Voris is still recording your events during your trial. Upgrade to keep full tracking afterward."
+msgstr ""
+
+#: includes/class-voris-nudge.php:215
+msgid "You've reached your trial's event limit"
+msgstr ""
+
+#: includes/class-voris-nudge.php:229
+msgid "You've reached your plan's event limit"
+msgstr ""
+
+#: includes/class-voris-nudge.php:230
+msgid "Voris is currently not accepting new events from your site. Upgrade to resume tracking."
+msgstr ""
+
+#: includes/class-voris-nudge.php:241
+msgid "You've passed your plan's event limit"
+msgstr ""
+
+#: includes/class-voris-nudge.php:242
+msgid "Voris is still recording your events; usage beyond your plan may incur overage charges. Review your plan."
+msgstr ""
+
+#: includes/class-voris-nudge.php:271
+msgid "This isn't the connected site"
+msgstr ""
+
+#: includes/class-voris-nudge.php:272
+msgid "This plugin is connected to a different site in your Voris workspace. Your plan may allow only one site — upgrade to add another, or reconnect this install to this site."
+msgstr ""
+
+#: includes/class-voris-nudge.php:290
+msgid "Your Voris usage may be out of date"
+msgstr ""
+
+#. translators: %s: human-readable date and time of the last successful refresh.
+#: includes/class-voris-nudge.php:293
+#, php-format
+msgid "Voris couldn't be reached to refresh your usage. Showing the last known figures from %s."
+msgstr ""
+
+#: includes/class-voris-nudge.php:294
+msgid "Voris couldn't be reached to refresh your usage yet."
+msgstr ""
+
+#: includes/class-voris-settings.php:244
+msgid "That does not look like a Voris site id. Copy it from your site&#8217;s settings in app.voris.ai — it looks like 3f2504e0-4f89-41d3-9a0c-0305e82c3301."
+msgstr ""
+
+#. translators: 1: minimum required PHP version, 2: PHP version in use
+#: voris.php:51
+#, php-format
+msgid "Voris requires PHP %1$s or newer. This site runs PHP %2$s, so Voris has been deactivated."
+msgstr ""
+
+#: assets/js/connect.js:67
+msgid "Connection was declined in Voris. Click Connect to try again."
+msgstr ""
+
+#: assets/js/connect.js:68
+msgid "The connection request expired. Click Connect to try again."
+msgstr ""
+
+#: assets/js/connect.js:69
+msgid "That connection is no longer valid. Click Connect to reconnect."
+msgstr ""
+
+#: assets/js/connect.js:70
+msgid "Please reconnect — sign in as an owner or admin of the workspace."
+msgstr ""
+
+#: assets/js/connect.js:71
+msgid "This connection needs an owner or admin. Restore that role in Voris, then reload this page."
+msgstr ""
+
+#: assets/js/connect.js:72
+msgid "Could not reach Voris just now. Retrying…"
+msgstr ""
+
+#. translators: %s: the user code to enter on the Voris approval page.
+#: assets/js/connect.js:83
+#, js-format
+msgid "Approve this connection in Voris using the link above (code %s)."
+msgstr ""
+
+#: assets/js/connect.js:88
+msgid "Approve this connection in Voris using the link above."
+msgstr ""
+
+#: assets/js/connect.js:114
+msgid "Connection ended. Click Connect to try again."
+msgstr ""
+
+#: assets/js/connect.js:126
+#: assets/js/connect.js:227
+msgid "Finishing connecting…"
+msgstr ""
+
+#: assets/js/connect.js:136
+msgid "Connected. Waiting for the first event…"
+msgstr ""
+
+#: assets/js/connect.js:178
+msgid "Starting…"
+msgstr ""
+
+#: assets/js/connect.js:188
+#: assets/js/connect.js:208
+msgid "Could not start the connection. Please try again."
+msgstr ""
+
+#: assets/js/connect.js:246
+msgid "Disconnecting…"
+msgstr ""
+
+#: assets/js/connect.js:252
+msgid "Could not disconnect just now. Please try again."
+msgstr ""
