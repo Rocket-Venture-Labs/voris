@@ -6,6 +6,24 @@ All notable changes to the Voris WordPress plugin. The format follows
 
 The user-facing summary lives in `readme.txt`; this file carries the engineering detail.
 
+## [1.0.0] — 2026-09-24
+
+First stable release.
+
+### Changed
+
+- A completed WooCommerce order now reports the canonical **`order_created`** event instead of
+  `purchase`, so Voris funnels, goals, and ad-platform forwarding recognise store sales without a
+  custom event name (A124 / VOR-335). Only the event name on the wire changes — no change to what
+  data is collected or sent, and the amount, currency, and order references are unchanged. The
+  refund correction keeps its current `refund` name and negative `revenue_amount`; its canonical
+  `order_refunded` rename lands in a later release, once the Voris vocabulary defines it.
+
+### Internal
+
+- Lint and i18n gates no longer scan nested `.claude/` worktrees (a per-session artifact that could
+  block commits with a duplicate-class error / stale-`.pot` diff).
+
 ## [0.1.4] — 2026-09-17
 
 Transparency, consent, and durability. Adds an in-admin privacy/consent surface with WP Consent API
@@ -219,6 +237,7 @@ frozen Voris A067 partner surface.
   verified by hand on an HPOS store. The automated suite still runs against legacy post-meta storage,
   so nothing guards that path against regression.
 
+[1.0.0]: https://github.com/Rocket-Venture-Labs/voris-plugin-wordpress/releases/tag/v1.0.0
 [0.1.4]: https://github.com/Rocket-Venture-Labs/voris-plugin-wordpress/releases/tag/v0.1.4
 [0.1.3]: https://github.com/Rocket-Venture-Labs/voris-plugin-wordpress/releases/tag/v0.1.3
 [0.1.2]: https://github.com/Rocket-Venture-Labs/voris-plugin-wordpress/releases/tag/v0.1.2

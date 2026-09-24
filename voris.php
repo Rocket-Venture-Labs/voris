@@ -3,7 +3,7 @@
  * Plugin Name:       Voris — Privacy-first Analytics
  * Plugin URI:        https://voris.ai
  * Description:       Sends analytics to Voris, a privacy-first customer data platform.
- * Version:           0.1.4
+ * Version:           1.0.0
  * Requires at least: 6.6
  * Requires PHP:      8.1
  * Author:            Rocket Venture Labs
@@ -21,7 +21,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'VORIS_VERSION', '0.1.4' );
+define( 'VORIS_VERSION', '1.0.0' );
 define( 'VORIS_PLUGIN_FILE', __FILE__ );
 
 /*

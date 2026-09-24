@@ -4,7 +4,7 @@ Tags: analytics, privacy, woocommerce, statistics, core web vitals
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 0.1.4
+Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -90,6 +90,10 @@ No. The tracking tag is loaded from Voris's CDN with `defer`, and revenue events
 
 == Changelog ==
 
+= 1.0.0 =
+* First stable release.
+* Changed: completed WooCommerce orders now report the canonical `order_created` event (previously `purchase`), so Voris funnels and goals recognise your sales out of the box. Only the event name changes — the amount, currency, and what data is sent are unchanged.
+
 = 0.1.4 =
 * New "Privacy & data sharing" section on the settings screen: it explains your privacy mode and lists exactly what WooCommerce data is and isn't sent.
 * Works with consent plugins: when a WP Consent API-compatible consent manager is active, the tracking tag waits for statistics consent; with none installed, nothing changes.
@@ -119,6 +123,9 @@ No. The tracking tag is loaded from Voris's CDN with `defer`, and revenue events
 * Choose whether uninstalling keeps your settings.
 
 == Upgrade Notice ==
+
+= 1.0.0 =
+First stable release. Completed orders now report as the canonical `order_created` event. If you built a Voris funnel or goal on the old `purchase` event name, point it at `order_created`.
 
 = 0.1.4 =
 Adds an on-screen privacy & consent summary with WP Consent API integration, hardens revenue delivery and refunds against silent loss or misfiling, and polishes the admin screen. No change to what is tracked or sent.

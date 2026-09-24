@@ -175,7 +175,7 @@ final class Voris_WooCommerce {
 			if ( null === $claim ) {
 				Voris_Queue::log_failure(
 					array(
-						'event_name' => 'purchase',
+						'event_name' => 'order_created',
 						'properties' => array( 'order_id' => (string) $order->get_id() ),
 					),
 					'claim_error',
@@ -219,7 +219,7 @@ final class Voris_WooCommerce {
 				 */
 				Voris_Queue::log_failure(
 					array(
-						'event_name' => 'purchase',
+						'event_name' => 'order_created',
 						'properties' => array( 'order_id' => (string) $order->get_id() ),
 					),
 					'refused_locally',
@@ -386,7 +386,7 @@ final class Voris_WooCommerce {
 	 * @return void
 	 */
 	public function confirm_event( $event ): void {
-		$order = $this->order_for_event( $event, 'purchase' );
+		$order = $this->order_for_event( $event, 'order_created' );
 
 		if ( ! $order ) {
 			return;
@@ -417,7 +417,7 @@ final class Voris_WooCommerce {
 	 * @return void
 	 */
 	public function abandon_event( $event ): void {
-		$order = $this->order_for_event( $event, 'purchase' );
+		$order = $this->order_for_event( $event, 'order_created' );
 
 		if ( ! $order ) {
 			return;

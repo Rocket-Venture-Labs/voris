@@ -10,7 +10,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Builds the server-side event payloads the plugin sends to Voris.
  *
- * Only two events exist on this path: `purchase` and `refund`. Pageviews and
+ * Only two events exist on this path: `order_created` and `refund`. Pageviews and
  * Core Web Vitals come from the hosted browser tag, which the plugin renders
  * but never constructs payloads for.
  *
@@ -66,7 +66,7 @@ final class Voris_Payload {
 			throw new InvalidArgumentException( 'A purchase amount must be positive.' );
 		}
 
-		$payload = self::base( $site_id, 'purchase' );
+		$payload = self::base( $site_id, 'order_created' );
 
 		$payload['revenue_amount']   = self::money( $amount );
 		$payload['revenue_currency'] = self::currency( $currency );
