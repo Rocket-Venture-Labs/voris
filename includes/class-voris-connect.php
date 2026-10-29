@@ -297,7 +297,7 @@ final class Voris_Connect {
 		// conventions.md prescribes for enqueued scripts.
 		wp_set_script_translations(
 			'voris-connect',
-			'voris',
+			'voris-privacy-first-analytics',
 			plugin_dir_path( VORIS_PLUGIN_FILE ) . 'languages'
 		);
 

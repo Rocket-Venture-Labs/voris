@@ -241,7 +241,7 @@ final class Voris_Settings {
 			add_settings_error(
 				self::OPTION,
 				'voris_invalid_site_id',
-				__( 'That does not look like a Voris site id. Copy it from your site&#8217;s settings in app.voris.ai — it looks like 3f2504e0-4f89-41d3-9a0c-0305e82c3301.', 'voris' ),
+				__( 'That does not look like a Voris site id. Copy it from your site&#8217;s settings in app.voris.ai — it looks like 3f2504e0-4f89-41d3-9a0c-0305e82c3301.', 'voris-privacy-first-analytics' ),
 				'error'
 			);
 		}

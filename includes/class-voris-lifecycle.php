@@ -74,7 +74,7 @@ final class Voris_Lifecycle {
 	public static function requirements_message(): string {
 		return sprintf(
 			/* translators: 1: minimum WordPress version, 2: minimum PHP version */
-			__( 'Voris requires WordPress %1$s or newer and PHP %2$s or newer. Nothing has been changed on your site.', 'voris' ),
+			__( 'Voris requires WordPress %1$s or newer and PHP %2$s or newer. Nothing has been changed on your site.', 'voris-privacy-first-analytics' ),
 			self::MIN_WP,
 			self::MIN_PHP
 		);

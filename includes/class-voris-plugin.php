@@ -125,7 +125,7 @@ final class Voris_Plugin {
 	 * @return void
 	 */
 	public function load_textdomain(): void {
-		load_plugin_textdomain( 'voris', false, dirname( plugin_basename( VORIS_PLUGIN_FILE ) ) . '/languages' );
+		load_plugin_textdomain( 'voris-privacy-first-analytics', false, dirname( plugin_basename( VORIS_PLUGIN_FILE ) ) . '/languages' );
 	}
 
 	/**

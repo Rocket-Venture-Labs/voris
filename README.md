@@ -1,8 +1,10 @@
-# Voris — Privacy-first Analytics for WordPress & WooCommerce
+# Voris - Privacy-first Analytics
+
+For WordPress & WooCommerce.
 
 ![Voris](.wordpress-org/assets/banner-1544x500.png)
 
-![Version](https://img.shields.io/badge/version-0.1.4-2563eb)
+![Version](https://img.shields.io/badge/version-1.1.0-2563eb)
 ![WordPress](https://img.shields.io/badge/WordPress-6.6%2B-21759b)
 ![Tested up to](https://img.shields.io/badge/tested%20up%20to-7.1-21759b)
 ![PHP](https://img.shields.io/badge/PHP-8.1%2B-777bb4)
@@ -11,6 +13,8 @@
 Privacy-first analytics for WordPress and WooCommerce. Connect to [Voris](https://voris.ai) in one click — **no code, no cookie banner.**
 
 This plugin connects your WordPress site to Voris without editing a theme, pasting a snippet into a code-snippets plugin, or losing your setup on the next theme update.
+
+Voris is a brand of **Rocket Venture Labs B.V.** (Amsterdam, the Netherlands). Rocket Venture Labs develops this plugin and operates the Voris service at [voris.ai](https://voris.ai).
 
 ---
 
@@ -56,10 +60,18 @@ Once the listing is live, install from the **WordPress.org plugin directory** (s
 
 To install from source in the meantime:
 
-1. Download this repository (or a [tagged release](https://github.com/Rocket-Venture-Labs/voris/releases)) into `wp-content/plugins/voris/`.
-2. Activate **Voris** under **Plugins**.
+1. Download **voris.zip** from the [latest release](https://github.com/Rocket-Venture-Labs/voris/releases/latest) and upload it under **Plugins → Add New → Upload Plugin**, or copy this repository into `wp-content/plugins/voris-privacy-first-analytics/`.
+2. Activate **Voris - Privacy-first Analytics** under **Plugins**.
 3. Go to **Tools → Voris**, click **Connect to Voris** and approve — or paste your site ID (it looks like `3f2504e0-4f89-41d3-9a0c-0305e82c3301`).
 4. Save. Tracking starts immediately.
+
+### Upgrading from 1.0.0
+
+Version 1.1.0 renamed the plugin to **Voris - Privacy-first Analytics**, and it now installs in a `voris-privacy-first-analytics/` folder instead of `voris/`. Your settings carry over. If you installed 1.0.0:
+
+1. Deactivate the old **Voris** plugin first. The two copies cannot be active at the same time.
+2. Install and activate 1.1.0 as above.
+3. Remove the old copy by deleting its `voris/` folder. If you would rather delete it from the Plugins screen, first tick **Keep my settings if I uninstall Voris** on Tools → Voris, because the old copy's uninstall would otherwise clear the settings the new one uses.
 
 ## Screenshots
 

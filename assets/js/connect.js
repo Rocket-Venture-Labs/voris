@@ -64,12 +64,12 @@
 
 	// Terminal outcomes (stop) vs pending/confirming (keep polling).
 	var MESSAGES = {
-		denied: __( 'Connection was declined in Voris. Click Connect to try again.', 'voris' ),
-		expired: __( 'The connection request expired. Click Connect to try again.', 'voris' ),
-		revoked: __( 'That connection is no longer valid. Click Connect to reconnect.', 'voris' ),
-		reconnect: __( 'Please reconnect — sign in as an owner or admin of the workspace.', 'voris' ),
-		needs_role: __( 'This connection needs an owner or admin. Restore that role in Voris, then reload this page.', 'voris' ),
-		error: __( 'Could not reach Voris just now. Retrying…', 'voris' ),
+		denied: __( 'Connection was declined in Voris. Click Connect to try again.', 'voris-privacy-first-analytics' ),
+		expired: __( 'The connection request expired. Click Connect to try again.', 'voris-privacy-first-analytics' ),
+		revoked: __( 'That connection is no longer valid. Click Connect to reconnect.', 'voris-privacy-first-analytics' ),
+		reconnect: __( 'Please reconnect — sign in as an owner or admin of the workspace.', 'voris-privacy-first-analytics' ),
+		needs_role: __( 'This connection needs an owner or admin. Restore that role in Voris, then reload this page.', 'voris-privacy-first-analytics' ),
+		error: __( 'Could not reach Voris just now. Retrying…', 'voris-privacy-first-analytics' ),
 	};
 
 	function schedule( fn, seconds ) {
@@ -80,12 +80,12 @@
 		if ( cfg.userCode ) {
 			return sprintf(
 				/* translators: %s: the user code to enter on the Voris approval page. */
-				__( 'Approve this connection in Voris using the link above (code %s).', 'voris' ),
+				__( 'Approve this connection in Voris using the link above (code %s).', 'voris-privacy-first-analytics' ),
 				cfg.userCode
 			);
 		}
 
-		return __( 'Approve this connection in Voris using the link above.', 'voris' );
+		return __( 'Approve this connection in Voris using the link above.', 'voris-privacy-first-analytics' );
 	}
 
 	// Render the approval affordance: a real, focusable link + the visible user code.
@@ -111,7 +111,7 @@
 		if ( btn ) {
 			btn.disabled = false;
 		}
-		say( MESSAGES[ d.status ] || __( 'Connection ended. Click Connect to try again.', 'voris' ) );
+		say( MESSAGES[ d.status ] || __( 'Connection ended. Click Connect to try again.', 'voris-privacy-first-analytics' ) );
 	}
 
 	function poll( interval ) {
@@ -123,7 +123,7 @@
 					// Still finishing (binding / attesting)? Keep polling — do NOT
 					// reload, or the loop would be orphaned again (VOR-298).
 					if ( d.confirming ) {
-						say( __( 'Finishing connecting…', 'voris' ) );
+						say( __( 'Finishing connecting…', 'voris-privacy-first-analytics' ) );
 						schedule( function () {
 							poll( interval );
 						}, interval );
@@ -132,8 +132,8 @@
 
 					say(
 						d.tracking_live
-							? __( 'Connected. Voris is receiving data from this site.', 'voris' )
-							: __( 'Connected. Waiting for the first event…', 'voris' )
+							? __( 'Connected. Voris is receiving data from this site.', 'voris-privacy-first-analytics' )
+							: __( 'Connected. Waiting for the first event…', 'voris-privacy-first-analytics' )
 					);
 					// Reload so the settings screen reflects the connected state.
 					window.setTimeout( function () {
@@ -175,7 +175,7 @@
 		if ( btn ) {
 			btn.disabled = true;
 		}
-		say( __( 'Starting…', 'voris' ) );
+		say( __( 'Starting…', 'voris-privacy-first-analytics' ) );
 
 		post( 'voris_connect_begin' ).then( function ( res ) {
 			var d = ( res && res.data ) || {};
@@ -185,7 +185,7 @@
 				if ( btn ) {
 					btn.disabled = false;
 				}
-				say( __( 'Could not start the connection. Please try again.', 'voris' ) );
+				say( __( 'Could not start the connection. Please try again.', 'voris-privacy-first-analytics' ) );
 				return;
 			}
 
@@ -205,7 +205,7 @@
 			if ( btn ) {
 				btn.disabled = false;
 			}
-			say( __( 'Could not start the connection. Please try again.', 'voris' ) );
+			say( __( 'Could not start the connection. Please try again.', 'voris-privacy-first-analytics' ) );
 		} );
 	}
 
@@ -224,7 +224,7 @@
 			showApproval( cfg.connectUrl, cfg.userCode );
 			say( approvalMessage() );
 		} else {
-			say( __( 'Finishing connecting…', 'voris' ) );
+			say( __( 'Finishing connecting…', 'voris-privacy-first-analytics' ) );
 		}
 
 		poll( 5 );
@@ -243,13 +243,13 @@
 	if ( disconnectBtn ) {
 		disconnectBtn.addEventListener( 'click', function () {
 			disconnectBtn.disabled = true;
-			say( __( 'Disconnecting…', 'voris' ) );
+			say( __( 'Disconnecting…', 'voris-privacy-first-analytics' ) );
 
 			post( 'voris_connect_disconnect' ).then( function () {
 				window.location.reload();
 			} ).catch( function () {
 				disconnectBtn.disabled = false;
-				say( __( 'Could not disconnect just now. Please try again.', 'voris' ) );
+				say( __( 'Could not disconnect just now. Please try again.', 'voris-privacy-first-analytics' ) );
 			} );
 		} );
 	}

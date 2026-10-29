@@ -98,11 +98,22 @@ final class Voris_Admin_Page {
 			return;
 		}
 
+		/*
+		 * Keep the advice on our own screen, never the global admin stream
+		 * (Guideline 11 — notices limited in scope). If the owner lands on
+		 * another admin page first, leave the transient so the advice still
+		 * appears the next time they open Tools → Voris.
+		 */
+		$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+		if ( null === $screen || self::HOOK_SUFFIX !== $screen->id ) {
+			return;
+		}
+
 		delete_transient( self::CACHE_NOTICE_TRANSIENT );
 
 		printf(
 			'<div class="notice notice-info is-dismissible"><p>%s</p></div>',
-			esc_html__( 'Voris settings saved. If your site uses a page cache, purge it so visitors get the updated tracking setup.', 'voris' )
+			esc_html__( 'Voris settings saved. If your site uses a page cache, purge it so visitors get the updated tracking setup.', 'voris-privacy-first-analytics' )
 		);
 	}
 
@@ -113,8 +124,8 @@ final class Voris_Admin_Page {
 	 */
 	public function add_menu(): void {
 		add_management_page(
-			__( 'Voris', 'voris' ),
-			__( 'Voris', 'voris' ),
+			__( 'Voris', 'voris-privacy-first-analytics' ),
+			__( 'Voris', 'voris-privacy-first-analytics' ),
 			self::CAPABILITY,
 			self::MENU_SLUG,
 			array( $this, 'render' )
@@ -135,7 +146,7 @@ final class Voris_Admin_Page {
 		$settings_link = sprintf(
 			'<a href="%s">%s</a>',
 			esc_url( admin_url( 'tools.php?page=' . self::MENU_SLUG ) ),
-			esc_html__( 'Settings', 'voris' )
+			esc_html__( 'Settings', 'voris-privacy-first-analytics' )
 		);
 
 		array_unshift( $links, $settings_link );
@@ -151,14 +162,14 @@ final class Voris_Admin_Page {
 	public function register_settings(): void {
 		add_settings_section(
 			'voris_connection',
-			__( 'Connection', 'voris' ),
+			__( 'Connection', 'voris-privacy-first-analytics' ),
 			array( $this, 'render_connection_status' ),
 			self::MENU_SLUG
 		);
 
 		add_settings_field(
 			'voris_site_id',
-			__( 'Site ID', 'voris' ),
+			__( 'Site ID', 'voris-privacy-first-analytics' ),
 			array( $this, 'render_site_id_field' ),
 			self::MENU_SLUG,
 			'voris_connection',
@@ -167,14 +178,14 @@ final class Voris_Admin_Page {
 
 		add_settings_section(
 			'voris_tracking',
-			__( 'Tracking', 'voris' ),
+			__( 'Tracking', 'voris-privacy-first-analytics' ),
 			'__return_empty_string',
 			self::MENU_SLUG
 		);
 
 		add_settings_field(
 			'voris_tracking_enabled',
-			__( 'Collect analytics', 'voris' ),
+			__( 'Collect analytics', 'voris-privacy-first-analytics' ),
 			array( $this, 'render_tracking_field' ),
 			self::MENU_SLUG,
 			'voris_tracking'
@@ -182,14 +193,14 @@ final class Voris_Admin_Page {
 
 		add_settings_section(
 			'voris_data',
-			__( 'Data', 'voris' ),
+			__( 'Data', 'voris-privacy-first-analytics' ),
 			'__return_empty_string',
 			self::MENU_SLUG
 		);
 
 		add_settings_field(
 			'voris_keep_data_on_uninstall',
-			__( 'When uninstalling', 'voris' ),
+			__( 'When uninstalling', 'voris-privacy-first-analytics' ),
 			array( $this, 'render_keep_data_field' ),
 			self::MENU_SLUG,
 			'voris_data'
@@ -202,17 +213,31 @@ final class Voris_Admin_Page {
 	 * @return void
 	 */
 	public function render_connection_status(): void {
-		if ( Voris_Settings::is_connected() ) {
-			$status_line = __( 'Connected. Voris is receiving data from this site.', 'voris' );
-		} elseif ( Voris_Connection::is_connected() ) {
+		$site_connected  = Voris_Settings::is_connected();
+		$grant_connected = Voris_Connection::is_connected();
+		if ( $site_connected ) {
+			$status_line = __( 'Connected. Voris is receiving data from this site.', 'voris-privacy-first-analytics' );
+		} elseif ( $grant_connected ) {
 			// A grant is held but the site is not fully bound yet — the connection is
 			// still being finished (VOR-298), not a plain "not connected" state.
-			$status_line = __( 'Finishing connecting to Voris…', 'voris' );
+			$status_line = __( 'Finishing connecting to Voris…', 'voris-privacy-first-analytics' );
 		} else {
-			$status_line = __( 'Not connected. Connect your Voris account, or add a site ID below.', 'voris' );
+			$status_line = __( 'Not connected. Connect your Voris account, or add a site ID below.', 'voris-privacy-first-analytics' );
 		}
 
 		printf( '<p><strong>%s</strong></p>', esc_html( $status_line ) );
+
+		// VOR-318 — once there is any connection (an account grant or a configured site
+		// id), give a way into the workspace: the admin screen otherwise dead-ended with
+		// no link to app.voris.ai. Opens the dashboard home, which routes a signed-in user
+		// to their workspace. Host-pinned literal — the same app host as Voris_Transport.
+		if ( $site_connected || $grant_connected ) {
+			printf(
+				'<p><a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a></p>',
+				esc_url( 'https://app.voris.ai/' ),
+				esc_html__( 'Open my Voris dashboard', 'voris-privacy-first-analytics' )
+			);
+		}
 
 		// Third-party disclosure (wp.org Guideline 7): the data-sharing statement + the
 		// Voris Terms + Privacy Policy, shown where the user activates the integration.
@@ -221,9 +246,9 @@ final class Voris_Admin_Page {
 			wp_kses(
 				sprintf(
 					/* translators: 1: Privacy Policy link, 2: Terms of Service link. */
-					__( 'Connecting sends this site&#8217;s analytics to Voris, an external service operated by Rocket Venture Labs B.V. See what is shared in the %1$s and %2$s.', 'voris' ),
-					'<a href="' . esc_url( 'https://voris.ai/legal/privacy/' ) . '" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Privacy Policy', 'voris' ) . '</a>',
-					'<a href="' . esc_url( 'https://voris.ai/legal/terms/' ) . '" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Terms of Service', 'voris' ) . '</a>'
+					__( 'Connecting sends this site&#8217;s analytics to Voris, an external service operated by Rocket Venture Labs B.V. See what is shared in the %1$s and %2$s.', 'voris-privacy-first-analytics' ),
+					'<a href="' . esc_url( 'https://voris.ai/legal/privacy/' ) . '" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Privacy Policy', 'voris-privacy-first-analytics' ) . '</a>',
+					'<a href="' . esc_url( 'https://voris.ai/legal/terms/' ) . '" target="_blank" rel="noopener noreferrer">' . esc_html__( 'Terms of Service', 'voris-privacy-first-analytics' ) . '</a>'
 				),
 				array(
 					'a' => array(
@@ -247,7 +272,7 @@ final class Voris_Admin_Page {
 		if ( ! $fully_connected ) {
 			printf(
 				'<p><button type="button" class="button button-primary" id="voris-connect-btn">%s</button></p>',
-				esc_html( $grant_held ? __( 'Resume connection', 'voris' ) : __( 'Connect to Voris', 'voris' ) )
+				esc_html( $grant_held ? __( 'Resume connection', 'voris-privacy-first-analytics' ) : __( 'Connect to Voris', 'voris-privacy-first-analytics' ) )
 			);
 
 			// Persistent, keyboard-focusable approval link + the visible user code
@@ -256,8 +281,8 @@ final class Voris_Admin_Page {
 			// claims a tab opened when it did not.
 			printf(
 				'<p id="voris-connect-approve" hidden>%1$s <a id="voris-connect-link" href="#" target="_blank" rel="noopener">%2$s</a> <code id="voris-connect-code"></code></p>',
-				esc_html__( 'Approve this connection in Voris:', 'voris' ),
-				esc_html__( 'Open the Voris approval page', 'voris' )
+				esc_html__( 'Approve this connection in Voris:', 'voris-privacy-first-analytics' ),
+				esc_html__( 'Open the Voris approval page', 'voris-privacy-first-analytics' )
 			);
 
 			printf( '<p id="voris-connect-status" role="status" aria-live="polite"></p>' );
@@ -269,9 +294,11 @@ final class Voris_Admin_Page {
 		if ( $grant_held ) {
 			printf(
 				'<p><button type="button" class="button" id="voris-connect-disconnect">%s</button></p>',
-				esc_html__( 'Disconnect', 'voris' )
+				esc_html__( 'Disconnect', 'voris-privacy-first-analytics' )
 			);
 		}
+
+		$this->render_docs_link( 'wordpress-connect', __( 'Setting up the Voris connection', 'voris-privacy-first-analytics' ) );
 	}
 
 	/**
@@ -296,8 +323,8 @@ final class Voris_Admin_Page {
 			'<p class="description" id="voris_site_id_help">%s</p>',
 			esc_html(
 				Voris_Connection::is_connected()
-					? __( 'Managed by your connected Voris account. Disconnect to edit this manually.', 'voris' )
-					: __( 'Find this in your site’s settings in app.voris.ai. It looks like 3f2504e0-4f89-41d3-9a0c-0305e82c3301. Leave it empty to disconnect.', 'voris' )
+					? __( 'Managed by your connected Voris account. Disconnect to edit this manually.', 'voris-privacy-first-analytics' )
+					: __( 'Find this in your site’s settings in app.voris.ai. It looks like 3f2504e0-4f89-41d3-9a0c-0305e82c3301. Leave it empty to disconnect.', 'voris-privacy-first-analytics' )
 			)
 		);
 	}
@@ -311,9 +338,9 @@ final class Voris_Admin_Page {
 		$this->render_checkbox(
 			'tracking_enabled',
 			Voris_Settings::is_tracking_enabled(),
-			__( 'Tracking', 'voris' ),
-			__( 'Send pageviews and Core Web Vitals to Voris', 'voris' ),
-			__( 'Turning this off removes the tracking tag from your site. Nothing is sent while it is off.', 'voris' )
+			__( 'Tracking', 'voris-privacy-first-analytics' ),
+			__( 'Send pageviews and Core Web Vitals to Voris', 'voris-privacy-first-analytics' ),
+			__( 'Turning this off removes the tracking tag from your site. Nothing is sent while it is off.', 'voris-privacy-first-analytics' )
 		);
 	}
 
@@ -326,9 +353,9 @@ final class Voris_Admin_Page {
 		$this->render_checkbox(
 			'keep_data_on_uninstall',
 			Voris_Settings::keeps_data_on_uninstall(),
-			__( 'Uninstall behaviour', 'voris' ),
-			__( 'Keep my settings if I uninstall Voris', 'voris' ),
-			__( 'By default, uninstalling removes everything this plugin stored. Deactivating never deletes anything.', 'voris' )
+			__( 'Uninstall behaviour', 'voris-privacy-first-analytics' ),
+			__( 'Keep my settings if I uninstall Voris', 'voris-privacy-first-analytics' ),
+			__( 'By default, uninstalling removes everything this plugin stored. Deactivating never deletes anything.', 'voris-privacy-first-analytics' )
 		);
 	}
 
@@ -367,6 +394,27 @@ final class Voris_Admin_Page {
 	}
 
 	/**
+	 * A link to a WordPress documentation page on docs.voris.ai.
+	 *
+	 * Single-sources the docs host, the new-tab attributes, and the escaping for
+	 * the four section links (A125 / VOR-315), so the call sites cannot drift. The
+	 * link is a static outbound anchor: it carries no site id, no query string, and
+	 * no other site data, and the plugin itself never contacts docs.voris.ai — the
+	 * admin's own browser follows the link on click.
+	 *
+	 * @param string $slug The docs page slug under https://docs.voris.ai/ (e.g. 'wordpress-connect').
+	 * @param string $text The visible, descriptive link text (already translated).
+	 * @return void
+	 */
+	private function render_docs_link( string $slug, string $text ): void {
+		printf(
+			'<p class="description"><a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a></p>',
+			esc_url( 'https://docs.voris.ai/' . $slug ),
+			esc_html( $text )
+		);
+	}
+
+	/**
 	 * Render the screen.
 	 *
 	 * The capability is checked again here: `add_management_page()` governs the
@@ -376,7 +424,7 @@ final class Voris_Admin_Page {
 	 */
 	public function render(): void {
 		if ( ! current_user_can( self::CAPABILITY ) ) {
-			wp_die( esc_html__( 'You do not have permission to manage Voris settings.', 'voris' ) );
+			wp_die( esc_html__( 'You do not have permission to manage Voris settings.', 'voris-privacy-first-analytics' ) );
 		}
 
 		echo '<div class="wrap">';
@@ -389,7 +437,7 @@ final class Voris_Admin_Page {
 		printf(
 			'<h1><img src="%1$s" alt="%2$s" width="131" height="36" /></h1>',
 			esc_url( plugins_url( 'assets/images/voris-logo.svg', VORIS_PLUGIN_FILE ) ),
-			esc_attr__( 'Voris', 'voris' )
+			esc_attr__( 'Voris', 'voris-privacy-first-analytics' )
 		);
 
 		$this->render_nudges();
@@ -426,43 +474,47 @@ final class Voris_Admin_Page {
 	 * @return void
 	 */
 	private function render_transparency(): void {
-		echo '<h2>' . esc_html__( 'Privacy &amp; data sharing', 'voris' ) . '</h2>';
+		echo '<h2>' . esc_html__( 'Privacy &amp; data sharing', 'voris-privacy-first-analytics' ) . '</h2>';
 
 		// Privacy mode (VOR-312).
-		echo '<h3>' . esc_html__( 'Privacy mode', 'voris' ) . '</h3>';
+		echo '<h3>' . esc_html__( 'Privacy mode', 'voris-privacy-first-analytics' ) . '</h3>';
 		printf(
 			'<p>%s</p>',
-			esc_html__( 'This plugin runs in Voris Mode A by default: it is cookieless, creates no visitor, session, or user identifier, and needs no cookie banner. Voris resolves the exact privacy mode server-side, per visitor region — the plugin never sets or changes it, and never sends anything mode-specific.', 'voris' )
+			esc_html__( 'This plugin runs in Voris Mode A by default: it is cookieless, creates no visitor, session, or user identifier, and needs no cookie banner. Voris resolves the exact privacy mode server-side, per visitor region — the plugin never sets or changes it, and never sends anything mode-specific.', 'voris-privacy-first-analytics' )
 		);
 		printf(
 			'<p>%s</p>',
-			esc_html__( 'Mode A is strictly aggregated and cookie-free. Mode B and Mode C add session-based identifiers that Voris derives on its own servers; on those modes, obtaining consent is part of your own legal setup, not something this plugin decides. Your mode is configured in app.voris.ai.', 'voris' )
+			esc_html__( 'Mode A is strictly aggregated and cookie-free. Mode B and Mode C add session-based identifiers that Voris derives on its own servers; on those modes, obtaining consent is part of your own legal setup, not something this plugin decides. Your mode is configured in app.voris.ai.', 'voris-privacy-first-analytics' )
 		);
 
+		$this->render_docs_link( 'wordpress-privacy', __( 'Privacy and data sharing on WordPress', 'voris-privacy-first-analytics' ) );
+
 		// Consent (VOR-313).
-		echo '<h3>' . esc_html__( 'Consent', 'voris' ) . '</h3>';
+		echo '<h3>' . esc_html__( 'Consent', 'voris-privacy-first-analytics' ) . '</h3>';
 		printf(
 			'<p class="description">%s</p>',
 			esc_html( self::consent_message( Voris_Consent::detect() ) )
 		);
 
 		// What Voris receives (VOR-314).
-		echo '<h3>' . esc_html__( 'What Voris receives from this site', 'voris' ) . '</h3>';
+		echo '<h3>' . esc_html__( 'What Voris receives from this site', 'voris-privacy-first-analytics' ) . '</h3>';
 		printf(
 			'<p>%s</p>',
-			esc_html__( 'From the tracking tag: page views and Core Web Vitals (loading-speed measurements). In Mode A these set no cookies and carry no identifier.', 'voris' )
+			esc_html__( 'From the tracking tag: page views and Core Web Vitals (loading-speed measurements). In Mode A these set no cookies and carry no identifier.', 'voris-privacy-first-analytics' )
 		);
 
 		if ( class_exists( 'WooCommerce' ) ) {
 			printf(
 				'<p>%s</p>',
-				esc_html__( 'From WooCommerce, for each completed order: the order total, its currency, and the number of items, with the order ID as a reference. Refunds are sent as negative corrections.', 'voris' )
+				esc_html__( 'From WooCommerce, for each completed order: the order total, its currency, and the number of items, with the order ID as a reference. Refunds are sent as negative corrections.', 'voris-privacy-first-analytics' )
 			);
+
+			$this->render_docs_link( 'wordpress-woocommerce', __( 'How WooCommerce revenue tracking works', 'voris-privacy-first-analytics' ) );
 		}
 
 		printf(
 			'<p>%s</p>',
-			esc_html__( 'Never sent: customer names, email or postal addresses, or any other personal data; product or line-item details; your visitors&#8217; IP addresses; and no visitor, session, or user identifier.', 'voris' )
+			esc_html__( 'Never sent: customer names, email or postal addresses, or any other personal data; product or line-item details; your visitors&#8217; IP addresses; and no visitor, session, or user identifier.', 'voris-privacy-first-analytics' )
 		);
 	}
 
@@ -482,25 +534,25 @@ final class Voris_Admin_Page {
 		if ( $consent_api && '' !== $manager ) {
 			return sprintf(
 				/* translators: %s: the detected consent plugin's name. */
-				__( '%s is active, and the WP Consent API is available. Voris is registered as a consent-aware plugin, so its tracking tag waits for statistics consent before it loads.', 'voris' ),
+				__( '%s is active, and the WP Consent API is available. Voris is registered as a consent-aware plugin, so its tracking tag waits for statistics consent before it loads.', 'voris-privacy-first-analytics' ),
 				$manager
 			);
 		}
 
 		if ( $consent_api ) {
-			return __( 'A consent plugin that supports the WP Consent API is active. Voris is registered as consent-aware, so its tracking tag waits for statistics consent before it loads.', 'voris' );
+			return __( 'A consent plugin that supports the WP Consent API is active. Voris is registered as consent-aware, so its tracking tag waits for statistics consent before it loads.', 'voris-privacy-first-analytics' );
 		}
 
 		if ( '' !== $manager ) {
 			return sprintf(
 				/* translators: 1: the detected consent plugin's name, 2: the same name again. */
-				__( 'We detected %1$s, but it does not use the WP Consent API, so Voris cannot read its consent state automatically. In Mode A no consent is required; for Mode B or C, configure %2$s to cover analytics.', 'voris' ),
+				__( 'We detected %1$s, but it does not use the WP Consent API, so Voris cannot read its consent state automatically. In Mode A no consent is required; for Mode B or C, configure %2$s to cover analytics.', 'voris-privacy-first-analytics' ),
 				$manager,
 				$manager
 			);
 		}
 
-		return __( 'No consent-management plugin was detected. In Mode A, Voris is cookieless and needs no consent banner. If your Voris account uses Mode B or C, consent is your responsibility — a plugin that supports the WP Consent API will integrate with Voris automatically.', 'voris' );
+		return __( 'No consent-management plugin was detected. In Mode A, Voris is cookieless and needs no consent banner. If your Voris account uses Mode B or C, consent is your responsibility — a plugin that supports the WP Consent API will integrate with Voris automatically.', 'voris-privacy-first-analytics' );
 	}
 
 	/**
@@ -531,7 +583,7 @@ final class Voris_Admin_Page {
 				printf(
 					'<p><a class="button" href="%s" target="_blank" rel="noopener noreferrer">%s</a></p>',
 					esc_url( $nudge['action_url'] ),
-					esc_html__( 'Open Voris', 'voris' )
+					esc_html__( 'Open Voris', 'voris-privacy-first-analytics' )
 				);
 			}
 
@@ -539,7 +591,7 @@ final class Voris_Admin_Page {
 				printf(
 					'<p><button type="button" class="button-link voris-nudge-dismiss" data-key="%s">%s</button></p>',
 					esc_attr( $nudge['threshold_key'] ),
-					esc_html__( 'Dismiss', 'voris' )
+					esc_html__( 'Dismiss', 'voris-privacy-first-analytics' )
 				);
 			}
 
@@ -563,12 +615,12 @@ final class Voris_Admin_Page {
 			return;
 		}
 
-		echo '<h2>' . esc_html__( 'Plan & usage', 'voris' ) . '</h2>';
+		echo '<h2>' . esc_html__( 'Plan & usage', 'voris-privacy-first-analytics' ) . '</h2>';
 
 		if ( Voris_Plan::is_stale() ) {
 			printf(
 				'<p><em>%s</em></p>',
-				esc_html__( 'Voris could not be reached to refresh these figures. Showing the last known usage.', 'voris' )
+				esc_html__( 'Voris could not be reached to refresh these figures. Showing the last known usage.', 'voris-privacy-first-analytics' )
 			);
 		}
 
@@ -579,7 +631,7 @@ final class Voris_Admin_Page {
 		if ( 'not_yet_measured' === $state ) {
 			printf(
 				'<p>%s</p>',
-				esc_html__( 'Usage has not yet been measured this billing period.', 'voris' )
+				esc_html__( 'Usage has not yet been measured this billing period.', 'voris-privacy-first-analytics' )
 			);
 
 			return;
@@ -596,7 +648,7 @@ final class Voris_Admin_Page {
 			esc_html(
 				sprintf(
 					/* translators: 1: events used, 2: monthly cap, 3: percentage. */
-					__( '%1$s of %2$s events used this billing period (%3$d%%).', 'voris' ),
+					__( '%1$s of %2$s events used this billing period (%3$d%%).', 'voris-privacy-first-analytics' ),
 					number_format_i18n( $used ),
 					number_format_i18n( $cap ),
 					$percent
@@ -607,7 +659,7 @@ final class Voris_Admin_Page {
 		printf(
 			'<progress max="100" value="%1$d" aria-label="%2$s"></progress>',
 			esc_attr( (string) $percent ),
-			esc_attr__( 'Share of your monthly event allowance used', 'voris' )
+			esc_attr__( 'Share of your monthly event allowance used', 'voris-privacy-first-analytics' )
 		);
 
 		$measured_at = isset( $read['usage']['measuredAt'] ) ? strtotime( (string) $read['usage']['measuredAt'] ) : false;
@@ -617,7 +669,7 @@ final class Voris_Admin_Page {
 				esc_html(
 					sprintf(
 						/* translators: %s: human-readable date and time Voris last measured usage. */
-						__( 'As of %s.', 'voris' ),
+						__( 'As of %s.', 'voris-privacy-first-analytics' ),
 						wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $measured_at )
 					)
 				)
@@ -638,12 +690,14 @@ final class Voris_Admin_Page {
 	private function render_delivery_log(): void {
 		$entries = Voris_Queue::log();
 
-		echo '<h2>' . esc_html__( 'Delivery log', 'voris' ) . '</h2>';
+		echo '<h2>' . esc_html__( 'Delivery log', 'voris-privacy-first-analytics' ) . '</h2>';
+
+		$this->render_docs_link( 'wordpress-troubleshooting', __( 'Troubleshooting Voris on WordPress', 'voris-privacy-first-analytics' ) );
 
 		if ( empty( $entries ) ) {
 			printf(
 				'<p>%s</p>',
-				esc_html__( 'No delivery failures. Everything this site sent has reached Voris.', 'voris' )
+				esc_html__( 'No delivery failures. Everything this site sent has reached Voris.', 'voris-privacy-first-analytics' )
 			);
 
 			return;
@@ -651,15 +705,15 @@ final class Voris_Admin_Page {
 
 		printf(
 			'<p>%s</p>',
-			esc_html__( 'Events that could not be delivered. Visitors never see these; page rendering and checkout are unaffected.', 'voris' )
+			esc_html__( 'Events that could not be delivered. Visitors never see these; page rendering and checkout are unaffected.', 'voris-privacy-first-analytics' )
 		);
 
 		echo '<table class="widefat striped"><thead><tr>';
-		printf( '<th scope="col">%s</th>', esc_html__( 'When', 'voris' ) );
-		printf( '<th scope="col">%s</th>', esc_html__( 'Event', 'voris' ) );
-		printf( '<th scope="col">%s</th>', esc_html__( 'Order', 'voris' ) );
-		printf( '<th scope="col">%s</th>', esc_html__( 'Event ID', 'voris' ) );
-		printf( '<th scope="col">%s</th>', esc_html__( 'Reason', 'voris' ) );
+		printf( '<th scope="col">%s</th>', esc_html__( 'When', 'voris-privacy-first-analytics' ) );
+		printf( '<th scope="col">%s</th>', esc_html__( 'Event', 'voris-privacy-first-analytics' ) );
+		printf( '<th scope="col">%s</th>', esc_html__( 'Order', 'voris-privacy-first-analytics' ) );
+		printf( '<th scope="col">%s</th>', esc_html__( 'Event ID', 'voris-privacy-first-analytics' ) );
+		printf( '<th scope="col">%s</th>', esc_html__( 'Reason', 'voris-privacy-first-analytics' ) );
 		echo '</tr></thead><tbody>';
 
 		// Newest first: the log is stored oldest-first.
@@ -721,31 +775,31 @@ final class Voris_Admin_Page {
 		$reason = (string) ( $entry['reason'] ?? '' );
 
 		if ( 'queue_overflow' === $reason ) {
-			return __( 'Dropped — too many events were waiting to be sent.', 'voris' );
+			return __( 'Dropped — too many events were waiting to be sent.', 'voris-privacy-first-analytics' );
 		}
 
 		if ( 'purchase_not_delivered' === $reason ) {
-			return __( 'Not reported — Voris never received the original order, so a correction would show negative revenue against a sale it has no record of.', 'voris' );
+			return __( 'Not reported — Voris never received the original order, so a correction would show negative revenue against a sale it has no record of.', 'voris-privacy-first-analytics' );
 		}
 
 		if ( 'refused_locally' === $reason ) {
-			return __( 'Not reported — the order carried no revenue Voris could record.', 'voris' );
+			return __( 'Not reported — the order carried no revenue Voris could record.', 'voris-privacy-first-analytics' );
 		}
 
 		if ( 'encode_failed' === $reason ) {
-			return __( 'Could not be prepared for sending. Check the order for unusual characters.', 'voris' );
+			return __( 'Could not be prepared for sending. Check the order for unusual characters.', 'voris-privacy-first-analytics' );
 		}
 
 		if ( 404 === $code ) {
-			return __( 'Voris did not recognise this site ID. Check the Connection setting above.', 'voris' );
+			return __( 'Voris did not recognise this site ID. Check the Connection setting above.', 'voris-privacy-first-analytics' );
 		}
 
 		if ( 400 === $code ) {
-			return __( 'Voris rejected the event.', 'voris' );
+			return __( 'Voris rejected the event.', 'voris-privacy-first-analytics' );
 		}
 
 		if ( 'gave_up' === $reason ) {
-			return __( 'Voris could not be reached after three attempts.', 'voris' );
+			return __( 'Voris could not be reached after three attempts.', 'voris-privacy-first-analytics' );
 		}
 
 		/*
@@ -754,6 +808,6 @@ final class Voris_Admin_Page {
 		 * a reason added by a later writer, would be reported as a
 		 * connectivity failure it never was.
 		 */
-		return __( 'Not delivered. See the event and order references above.', 'voris' );
+		return __( 'Not delivered. See the event and order references above.', 'voris-privacy-first-analytics' );
 	}
 }

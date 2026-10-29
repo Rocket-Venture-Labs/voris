@@ -6,6 +6,42 @@ All notable changes to the Voris WordPress plugin. The format follows
 
 The user-facing summary lives in `readme.txt`; this file carries the engineering detail.
 
+## [1.1.0] — 2026-10-28
+
+The WordPress.org submission build. Renames the plugin to its directory name and slug, scopes the one
+admin notice to the plugin's own screen, and links the settings screen to the docs and the Voris
+dashboard. No change to what data the plugin collects or sends to Voris ingest.
+
+### Added
+
+- An **Open my Voris dashboard** link in the connection-status block, shown once the site is
+  connected (an account grant held, or a site ID configured) and absent before then, so the settings
+  screen no longer dead-ends after connecting (VOR-318). It opens the app.voris.ai home, host-pinned
+  to the same host as the plugin's own requests to app.voris.ai.
+- The settings screen now links to the matching WordPress help page on docs.voris.ai from each
+  section — connecting, privacy, WooCommerce revenue, and troubleshooting — and `readme.txt` links
+  the documentation hub, so admins can find the guides from inside WordPress (A125 / VOR-315). The
+  links are static outbound anchors: no new option, request, or payload, and no site data in the
+  URLs. The plugin does not contact docs.voris.ai; the admin's browser follows the link on click.
+
+### Changed
+
+- Renamed to **Voris - Privacy-first Analytics**, with the slug and text domain
+  `voris-privacy-first-analytics` (the WordPress.org submission slug). The main file is now
+  `voris-privacy-first-analytics.php` and the translation template
+  `languages/voris-privacy-first-analytics.pot`. Internal identifiers are unchanged (the `Voris_`
+  classes, `VORIS_` constants, `voris_*` options and meta, and the `tools.php?page=voris` screen), so
+  stored settings carry over. `readme.txt` now states that Voris is a brand of Rocket Venture Labs B.V.,
+  which develops the plugin and operates voris.ai.
+- The "settings saved, purge your cache" notice now appears only on the Tools → Voris screen, not in
+  the global admin notice area (wp.org Guideline 11).
+
+**Migrating from the 1.0.0 GitHub zip.** That build lives in a `voris/` folder; the renamed plugin
+installs as a separate `voris-privacy-first-analytics/` folder. The two copies share class names, so
+deactivate the old one before activating the new one. Remove the old copy by deleting its folder, or
+tick **Keep my settings if I uninstall Voris** first: its uninstall routine would otherwise clear the
+settings the new copy reuses.
+
 ## [1.0.0] — 2026-09-24
 
 First stable release.
@@ -237,6 +273,7 @@ frozen Voris A067 partner surface.
   verified by hand on an HPOS store. The automated suite still runs against legacy post-meta storage,
   so nothing guards that path against regression.
 
+[1.1.0]: https://github.com/Rocket-Venture-Labs/voris-plugin-wordpress/releases/tag/v1.1.0
 [1.0.0]: https://github.com/Rocket-Venture-Labs/voris-plugin-wordpress/releases/tag/v1.0.0
 [0.1.4]: https://github.com/Rocket-Venture-Labs/voris-plugin-wordpress/releases/tag/v0.1.4
 [0.1.3]: https://github.com/Rocket-Venture-Labs/voris-plugin-wordpress/releases/tag/v0.1.3

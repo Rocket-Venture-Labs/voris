@@ -1,10 +1,10 @@
-=== Voris — Privacy-first Analytics ===
+=== Voris - Privacy-first Analytics ===
 Contributors: rocketventurelabs
 Tags: analytics, privacy, woocommerce, statistics, core web vitals
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,6 +13,10 @@ Privacy-first analytics for WordPress and WooCommerce. Connect to Voris in one c
 == Description ==
 
 Voris is a privacy-first analytics platform. This plugin connects your WordPress site to it without editing a theme, pasting a snippet into a code-snippets plugin, or losing your setup on the next theme update.
+
+**Who makes it**
+
+Voris is a brand of Rocket Venture Labs B.V., based in Amsterdam, the Netherlands. Rocket Venture Labs develops this plugin and operates the Voris service at voris.ai, so the plugin and the analytics it connects to come from the same team.
 
 **What it does**
 
@@ -26,6 +30,10 @@ Voris is a privacy-first analytics platform. This plugin connects your WordPress
 **What it never sends**
 
 No visitor IP address. No names, email addresses or postal addresses — not even from an order. No visitor, session or user identifiers. Voris works out geography and device from the request on its own side and discards the IP; the plugin's job is to send the event, nothing more. (This describes the plugin's own events; the browser tag's per-mode behavior is set out under "External service" below.)
+
+**Documentation**
+
+Step-by-step guides for installing, connecting your site, privacy modes, WooCommerce revenue tracking, and troubleshooting live on the Voris help site: https://docs.voris.ai/wordpress. The settings screen also links to the right page for each section. (Opening a help page sends nothing to Voris — it is documentation, not an analytics endpoint.)
 
 == External service ==
 
@@ -48,6 +56,8 @@ By connecting your site you agree to Voris's terms and privacy practices:
 2. Go to **Tools → Voris**.
 3. Click **Connect to Voris** and approve in the tab that opens — or paste your site ID by hand (find it in your site's settings in app.voris.ai; it looks like `3f2504e0-4f89-41d3-9a0c-0305e82c3301`).
 4. Save. Tracking starts immediately.
+
+Full documentation — installing, connecting, privacy modes, WooCommerce revenue, and troubleshooting — is at https://docs.voris.ai/wordpress.
 
 == Frequently Asked Questions ==
 
@@ -90,6 +100,12 @@ No. The tracking tag is loaded from Voris's CDN with `defer`, and revenue events
 
 == Changelog ==
 
+= 1.1.0 =
+* Renamed to Voris - Privacy-first Analytics, the plugin's WordPress.org name. Your settings carry over.
+* New: an "Open my Voris dashboard" link on the settings screen once your site is connected.
+* New: each section of the settings screen links to its help page on docs.voris.ai.
+* The "purge your page cache" reminder after saving now shows only on the Voris settings screen.
+
 = 1.0.0 =
 * First stable release.
 * Changed: completed WooCommerce orders now report the canonical `order_created` event (previously `purchase`), so Voris funnels and goals recognise your sales out of the box. Only the event name changes — the amount, currency, and what data is sent are unchanged.
@@ -123,6 +139,9 @@ No. The tracking tag is loaded from Voris's CDN with `defer`, and revenue events
 * Choose whether uninstalling keeps your settings.
 
 == Upgrade Notice ==
+
+= 1.1.0 =
+Renamed to Voris - Privacy-first Analytics. If you installed 1.0.0 from the GitHub zip, deactivate that copy before activating this one; it installs in a new folder.
 
 = 1.0.0 =
 First stable release. Completed orders now report as the canonical `order_created` event. If you built a Voris funnel or goal on the old `purchase` event name, point it at `order_created`.

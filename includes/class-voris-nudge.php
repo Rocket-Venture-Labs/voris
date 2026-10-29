@@ -121,11 +121,11 @@ final class Voris_Nudge {
 				'dismissible'   => false,
 				'threshold_key' => '',
 				'title'         => $is_soft
-					? __( 'Your Voris workspace is limited', 'voris' )
-					: __( 'Your Voris workspace is locked', 'voris' ),
+					? __( 'Your Voris workspace is limited', 'voris-privacy-first-analytics' )
+					: __( 'Your Voris workspace is locked', 'voris-privacy-first-analytics' ),
 				'body'          => $is_soft
-					? __( 'Some features are paused because of a billing issue. Resolve it to restore full access.', 'voris' )
-					: __( 'Voris has paused data collection because of a billing issue. Resolve it to resume tracking.', 'voris' ),
+					? __( 'Some features are paused because of a billing issue. Resolve it to restore full access.', 'voris-privacy-first-analytics' )
+					: __( 'Voris has paused data collection because of a billing issue. Resolve it to resume tracking.', 'voris-privacy-first-analytics' ),
 				'action_url'    => $action,
 			);
 		}
@@ -137,8 +137,8 @@ final class Voris_Nudge {
 				'level'         => 'critical',
 				'dismissible'   => false,
 				'threshold_key' => '',
-				'title'         => __( 'A Voris payment is needed', 'voris' ),
-				'body'          => __( 'Your payment is past due. Update your billing details in Voris to avoid interruption.', 'voris' ),
+				'title'         => __( 'A Voris payment is needed', 'voris-privacy-first-analytics' ),
+				'body'          => __( 'Your payment is past due. Update your billing details in Voris to avoid interruption.', 'voris-privacy-first-analytics' ),
 				'action_url'    => $action,
 			);
 		}
@@ -182,8 +182,8 @@ final class Voris_Nudge {
 				// Floor, not round: rounding would show "100%" for 99.5-99.99% usage on
 				// a sub-cap nudge whose body still says "if you reach your limit".
 				/* translators: %d: whole-number percentage of the monthly event allowance used. */
-				'title'         => sprintf( __( "You've used %d%% of your monthly event allowance", 'voris' ), (int) floor( $percent ) ),
-				'body'          => __( 'Consider upgrading to avoid an interruption if you reach your limit this billing period.', 'voris' ),
+				'title'         => sprintf( __( "You've used %d%% of your monthly event allowance", 'voris-privacy-first-analytics' ), (int) floor( $percent ) ),
+				'body'          => __( 'Consider upgrading to avoid an interruption if you reach your limit this billing period.', 'voris-privacy-first-analytics' ),
 				'action_url'    => $action,
 			);
 		}
@@ -204,15 +204,15 @@ final class Voris_Nudge {
 			$ends = isset( $read['trial']['endsAt'] ) ? self::format_date( $read['trial']['endsAt'] ) : '';
 			$body = '' !== $ends
 				/* translators: %s: human-readable trial end date. */
-				? sprintf( __( 'Voris is still recording your events during your trial, which ends %s. Upgrade to keep full tracking afterward.', 'voris' ), $ends )
-				: __( 'Voris is still recording your events during your trial. Upgrade to keep full tracking afterward.', 'voris' );
+				? sprintf( __( 'Voris is still recording your events during your trial, which ends %s. Upgrade to keep full tracking afterward.', 'voris-privacy-first-analytics' ), $ends )
+				: __( 'Voris is still recording your events during your trial. Upgrade to keep full tracking afterward.', 'voris-privacy-first-analytics' );
 
 			return array(
 				'code'          => 'at_cap_trial',
 				'level'         => 'warning',
 				'dismissible'   => false,
 				'threshold_key' => '',
-				'title'         => __( "You've reached your trial's event limit", 'voris' ),
+				'title'         => __( "You've reached your trial's event limit", 'voris-privacy-first-analytics' ),
 				'body'          => $body,
 				'action_url'    => $action,
 			);
@@ -226,8 +226,8 @@ final class Voris_Nudge {
 				'level'         => 'critical',
 				'dismissible'   => false,
 				'threshold_key' => '',
-				'title'         => __( "You've reached your plan's event limit", 'voris' ),
-				'body'          => __( 'Voris is currently not accepting new events from your site. Upgrade to resume tracking.', 'voris' ),
+				'title'         => __( "You've reached your plan's event limit", 'voris-privacy-first-analytics' ),
+				'body'          => __( 'Voris is currently not accepting new events from your site. Upgrade to resume tracking.', 'voris-privacy-first-analytics' ),
 				'action_url'    => $action,
 			);
 		}
@@ -238,8 +238,8 @@ final class Voris_Nudge {
 			'level'         => 'warning',
 			'dismissible'   => false,
 			'threshold_key' => '',
-			'title'         => __( "You've passed your plan's event limit", 'voris' ),
-			'body'          => __( 'Voris is still recording your events; usage beyond your plan may incur overage charges. Review your plan.', 'voris' ),
+			'title'         => __( "You've passed your plan's event limit", 'voris-privacy-first-analytics' ),
+			'body'          => __( 'Voris is still recording your events; usage beyond your plan may incur overage charges. Review your plan.', 'voris-privacy-first-analytics' ),
 			'action_url'    => $action,
 		);
 	}
@@ -268,8 +268,8 @@ final class Voris_Nudge {
 			'level'         => 'warning',
 			'dismissible'   => false,
 			'threshold_key' => '',
-			'title'         => __( "This isn't the connected site", 'voris' ),
-			'body'          => __( 'This plugin is connected to a different site in your Voris workspace. Your plan may allow only one site — upgrade to add another, or reconnect this install to this site.', 'voris' ),
+			'title'         => __( "This isn't the connected site", 'voris-privacy-first-analytics' ),
+			'body'          => __( 'This plugin is connected to a different site in your Voris workspace. Your plan may allow only one site — upgrade to add another, or reconnect this install to this site.', 'voris-privacy-first-analytics' ),
 			'action_url'    => self::safe_action_url( isset( $read['upgrade']['url'] ) ? $read['upgrade']['url'] : '' ),
 		);
 	}
@@ -287,11 +287,11 @@ final class Voris_Nudge {
 			'level'         => 'info',
 			'dismissible'   => false,
 			'threshold_key' => '',
-			'title'         => __( 'Your Voris usage may be out of date', 'voris' ),
+			'title'         => __( 'Your Voris usage may be out of date', 'voris-privacy-first-analytics' ),
 			'body'          => '' !== $as_of
 				/* translators: %s: human-readable date and time of the last successful refresh. */
-				? sprintf( __( "Voris couldn't be reached to refresh your usage. Showing the last known figures from %s.", 'voris' ), $as_of )
-				: __( "Voris couldn't be reached to refresh your usage yet.", 'voris' ),
+				? sprintf( __( "Voris couldn't be reached to refresh your usage. Showing the last known figures from %s.", 'voris-privacy-first-analytics' ), $as_of )
+				: __( "Voris couldn't be reached to refresh your usage yet.", 'voris-privacy-first-analytics' ),
 			'action_url'    => '',
 		);
 	}

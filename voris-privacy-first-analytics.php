@@ -1,15 +1,15 @@
 <?php
 /**
- * Plugin Name:       Voris — Privacy-first Analytics
+ * Plugin Name:       Voris - Privacy-first Analytics
  * Plugin URI:        https://voris.ai
  * Description:       Sends analytics to Voris, a privacy-first customer data platform.
- * Version:           1.0.0
+ * Version:           1.1.0
  * Requires at least: 6.6
  * Requires PHP:      8.1
  * Author:            Rocket Venture Labs
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       voris
+ * Text Domain:       voris-privacy-first-analytics
  * Domain Path:       /languages
  *
  * This file must stay parse-safe on PHP versions below the 8.1 floor (C5), so
@@ -21,7 +21,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'VORIS_VERSION', '1.0.0' );
+define( 'VORIS_VERSION', '1.1.0' );
 define( 'VORIS_PLUGIN_FILE', __FILE__ );
 
 /*
@@ -48,7 +48,7 @@ function voris_render_php_version_notice() {
 
 	$message = sprintf(
 		/* translators: 1: minimum required PHP version, 2: PHP version in use */
-		__( 'Voris requires PHP %1$s or newer. This site runs PHP %2$s, so Voris has been deactivated.', 'voris' ),
+		__( 'Voris requires PHP %1$s or newer. This site runs PHP %2$s, so Voris has been deactivated.', 'voris-privacy-first-analytics' ),
 		'8.1',
 		PHP_VERSION
 	);
