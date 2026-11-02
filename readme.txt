@@ -4,7 +4,7 @@ Tags: analytics, privacy, woocommerce, statistics, core web vitals
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.2.0
+Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -100,69 +100,11 @@ No. The tracking tag is loaded from Voris's CDN with `defer`, and revenue events
 
 == Changelog ==
 
-= 1.2.0 =
-* Changed: WooCommerce refunds now report as the canonical `order_refunded` event. Voris records refunds as their own figure instead of subtracting them from your revenue, so your sales total stays what you sold. What is sent is unchanged: the refunded amount, its currency, whether it was partial, and the order and refund references.
-
-= 1.1.0 =
-* Renamed to Voris - Privacy-first Analytics, the plugin's WordPress.org name. Your settings carry over.
-* New: an "Open my Voris dashboard" link on the settings screen once your site is connected.
-* New: each section of the settings screen links to its help page on docs.voris.ai.
-* The "purge your page cache" reminder after saving now shows only on the Voris settings screen.
-
 = 1.0.0 =
-* First stable release.
-* Changed: completed WooCommerce orders now report the canonical `order_created` event (previously `purchase`), so Voris funnels and goals recognise your sales out of the box. Only the event name changes — the amount, currency, and what data is sent are unchanged.
-
-= 0.1.4 =
-* New "Privacy & data sharing" section on the settings screen: it explains your privacy mode and lists exactly what WooCommerce data is and isn't sent.
-* Works with consent plugins: when a WP Consent API-compatible consent manager is active, the tracking tag waits for statistics consent; with none installed, nothing changes.
-* More reliable revenue: fixes that could otherwise silently lose an order's revenue, double-count it, or file a refund against the wrong workspace — plus a cleaner reconnect after the plugin is deactivated and reactivated.
-* Polish: a Settings link on the Plugins list, the Voris wordmark on the settings screen, and the connect flow is now fully translatable.
-
-= 0.1.3 =
-* Connecting to Voris is more reliable: an interrupted setup now recovers on its own instead of getting stuck, and the connection controls stay available until it finishes.
-* The approval step always shows a clickable link and the code, so it still works when your browser blocks pop-ups.
-* You can now disconnect, or switch Voris accounts, from the settings screen.
-* A stalled connection attempt stops cleanly with a clear message instead of retrying forever.
-
-= 0.1.2 =
-* The settings screen now summarises exactly what is shared with Voris, with links to the Terms of Service and Privacy Policy.
-* Prepared the plugin for the WordPress.org plugin directory — listing icon, banner, screenshots, and a full external-service disclosure in this readme. No change to tracking or your data.
-
-= 0.1.1 =
-* The Voris screen moved from Settings to **Tools → Voris**.
-
-= 0.1.0 =
-* First release.
-* Connect a site with its Voris site ID, or connect in one click through Voris.
-* Pageviews and Core Web Vitals via Voris's hosted tag.
-* WooCommerce revenue on order completion, and corrections on refund.
-* See your plan usage on the settings screen, with upgrade nudges as you approach your limit.
+* First public release on WordPress.org.
+* Connect your site to Voris in one click, or enter your site ID by hand.
+* Pageviews and Core Web Vitals via Voris's hosted, cookieless tag.
+* WooCommerce revenue on order completion (the canonical `order_created` event), with refunds reported as their own `order_refunded` figure rather than subtracted from revenue.
+* Plan usage on the settings screen, with upgrade nudges as you approach your limit.
 * Background retries with a visible delivery log when an event cannot be sent.
-* Choose whether uninstalling keeps your settings.
-
-== Upgrade Notice ==
-
-= 1.2.0 =
-Refunds now report as `order_refunded` and no longer lower your revenue in Voris. If you built a Voris funnel or goal on the old `refund` event name, point it at `order_refunded`.
-
-= 1.1.0 =
-Renamed to Voris - Privacy-first Analytics. If you installed 1.0.0 from the GitHub zip, deactivate that copy before activating this one; it installs in a new folder.
-
-= 1.0.0 =
-First stable release. Completed orders now report as the canonical `order_created` event. If you built a Voris funnel or goal on the old `purchase` event name, point it at `order_created`.
-
-= 0.1.4 =
-Adds an on-screen privacy & consent summary with WP Consent API integration, hardens revenue delivery and refunds against silent loss or misfiling, and polishes the admin screen. No change to what is tracked or sent.
-
-= 0.1.3 =
-Makes connecting to Voris more reliable and recoverable, adds an in-admin disconnect / switch-account, and shows a clickable approval link when pop-ups are blocked. No change to what is tracked or sent.
-
-= 0.1.2 =
-Adds an on-screen summary of what is shared with Voris, with links to the Terms and Privacy Policy. No change to tracking or your data.
-
-= 0.1.1 =
-The Voris screen is now under Tools, not Settings.
-
-= 0.1.0 =
-First release.
+* WP Consent API integration, and a privacy & data-sharing summary on the settings screen.
