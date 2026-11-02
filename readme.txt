@@ -4,7 +4,7 @@ Tags: analytics, privacy, woocommerce, statistics, core web vitals
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -79,7 +79,7 @@ Revenue is reported when an order reaches **Completed**, not when it is paid. St
 
 = A refund did not show up =
 
-A refund is only reported when Voris confirmed receiving the original purchase. If the purchase could not be delivered, reporting the refund would leave your dashboard showing negative revenue against a sale Voris has no record of, so the plugin skips it and notes the skip in the delivery log.
+A refund is only reported when Voris confirmed receiving the original purchase. If the purchase could not be delivered, reporting the refund would leave your dashboard showing a refund against a sale Voris has no record of, so the plugin skips it and notes the skip in the delivery log.
 
 = Does it work without WooCommerce? =
 
@@ -99,6 +99,9 @@ No. The tracking tag is loaded from Voris's CDN with `defer`, and revenue events
 2. Connect in one click: "Connect to Voris" opens Voris's approval page and binds this site, or paste your site ID by hand.
 
 == Changelog ==
+
+= 1.2.0 =
+* Changed: WooCommerce refunds now report as the canonical `order_refunded` event. Voris records refunds as their own figure instead of subtracting them from your revenue, so your sales total stays what you sold. What is sent is unchanged: the refunded amount, its currency, whether it was partial, and the order and refund references.
 
 = 1.1.0 =
 * Renamed to Voris - Privacy-first Analytics, the plugin's WordPress.org name. Your settings carry over.
@@ -139,6 +142,9 @@ No. The tracking tag is loaded from Voris's CDN with `defer`, and revenue events
 * Choose whether uninstalling keeps your settings.
 
 == Upgrade Notice ==
+
+= 1.2.0 =
+Refunds now report as `order_refunded` and no longer lower your revenue in Voris. If you built a Voris funnel or goal on the old `refund` event name, point it at `order_refunded`.
 
 = 1.1.0 =
 Renamed to Voris - Privacy-first Analytics. If you installed 1.0.0 from the GitHub zip, deactivate that copy before activating this one; it installs in a new folder.

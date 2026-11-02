@@ -36,8 +36,8 @@ final class Voris_WooCommerce {
 	/**
 	 * Voris site id the confirmed purchase was delivered to (ADR-ACH006).
 	 *
-	 * A later refund correction must reverse revenue in the workspace that
-	 * received the sale, not whatever the site is connected to at refund time.
+	 * A later refund must be reported to the workspace that received the sale,
+	 * not whatever the site is connected to at refund time.
 	 *
 	 * @var string
 	 */
@@ -239,11 +239,11 @@ final class Voris_WooCommerce {
 	}
 
 	/**
-	 * Report a refund as a negative revenue correction.
+	 * Report a refund as an `order_refunded` correction (A124 CL6).
 	 *
 	 * Full and partial refunds are both reported (C3). A refund is only sent
 	 * when Voris confirmed receiving the purchase: correcting revenue that
-	 * never arrived would leave the dashboard reading negative against a sale
+	 * never arrived would leave the dashboard showing a refund against a sale
 	 * it has no record of (ADR-MG001).
 	 *
 	 * @param int $order_id  Order id.
@@ -270,7 +270,7 @@ final class Voris_WooCommerce {
 			 */
 			Voris_Queue::log_failure(
 				array(
-					'event_name' => 'refund',
+					'event_name' => 'order_refunded',
 					'properties' => array( 'order_id' => (string) $order->get_id() ),
 				),
 				'purchase_not_delivered',
@@ -281,11 +281,11 @@ final class Voris_WooCommerce {
 		}
 
 		/*
-		 * A correction must reverse revenue in the workspace that received the
-		 * sale. If the site was reconnected to a different Voris workspace since
-		 * the purchase was confirmed, sending against the current site id would
-		 * mis-route the correction — the old workspace keeps unreversed revenue,
-		 * the new one gets a correction for a sale it never saw. Refuse and
+		 * A refund must be reported to the workspace that received the sale. If
+		 * the site was reconnected to a different Voris workspace since the
+		 * purchase was confirmed, sending against the current site id would
+		 * mis-route the refund — the old workspace never sees it, the new one
+		 * gets a refund against a sale it never saw. Refuse and
 		 * record the mismatch rather than mis-route (VOR-304, ADR-ACH006). A
 		 * legacy order with no pinned site (confirmed before ADR-ACH006) has no
 		 * evidence of a change, so it falls back to the current site.
@@ -296,7 +296,7 @@ final class Voris_WooCommerce {
 		if ( '' !== $purchase_site && $purchase_site !== $current_site ) {
 			Voris_Queue::log_failure(
 				array(
-					'event_name' => 'refund',
+					'event_name' => 'order_refunded',
 					'properties' => array( 'order_id' => (string) $order->get_id() ),
 				),
 				'purchase_site_mismatch',
@@ -319,7 +319,7 @@ final class Voris_WooCommerce {
 			if ( null === $claim ) {
 				Voris_Queue::log_failure(
 					array(
-						'event_name' => 'refund',
+						'event_name' => 'order_refunded',
 						'properties' => array( 'order_id' => (string) $order->get_id() ),
 					),
 					'claim_error',
@@ -360,7 +360,7 @@ final class Voris_WooCommerce {
 			} catch ( Throwable $e ) {
 				Voris_Queue::log_failure(
 					array(
-						'event_name' => 'refund',
+						'event_name' => 'order_refunded',
 						'properties' => array( 'order_id' => (string) $order->get_id() ),
 					),
 					'refused_locally',
@@ -398,8 +398,8 @@ final class Voris_WooCommerce {
 		/*
 		 * Pin the workspace this purchase was delivered to, taken from the
 		 * delivered event itself rather than re-read from settings (which may
-		 * have changed). A later refund reverses revenue here, or refuses if the
-		 * site has since moved to a different workspace (ADR-ACH006).
+		 * have changed). A later refund is reported here, or refused if the site
+		 * has since moved to a different workspace (ADR-ACH006).
 		 */
 		$order->update_meta_data( self::PURCHASE_SITE_META, isset( $event['site_id'] ) ? (string) $event['site_id'] : '' );
 

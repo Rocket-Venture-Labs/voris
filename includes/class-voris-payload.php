@@ -10,7 +10,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Builds the server-side event payloads the plugin sends to Voris.
  *
- * Only two events exist on this path: `order_created` and `refund`. Pageviews and
+ * Only two events exist on this path: `order_created` and `order_refunded`. Pageviews and
  * Core Web Vitals come from the hosted browser tag, which the plugin renders
  * but never constructs payloads for.
  *
@@ -79,7 +79,12 @@ final class Voris_Payload {
 	}
 
 	/**
-	 * Build a refund event, reported as a negative revenue correction.
+	 * Build a refund event in Voris's canonical refund shape.
+	 *
+	 * The refund carries no revenue amount: its magnitude travels, always
+	 * positive, in `extensions.commerce.refund_amount` with its currency, which
+	 * Voris reports as a separate refunds figure and never nets into gross
+	 * revenue (A124 CL6, rocketanalytics ADR-A142 / ADR-A133).
 	 *
 	 * @param string $site_id   The site's Voris id (UUID v4).
 	 * @param string $order_id  Order the refund belongs to.
@@ -95,14 +100,20 @@ final class Voris_Payload {
 			throw new InvalidArgumentException( 'A refund amount must be non-zero.' );
 		}
 
-		$payload = self::base( $site_id, 'refund' );
+		$payload = self::base( $site_id, 'order_refunded' );
 
-		$payload['revenue_amount']   = self::correction_amount( $amount );
-		$payload['revenue_currency'] = self::currency( $currency );
+		$payload['revenue_amount']   = null;
+		$payload['revenue_currency'] = null;
 		$payload['properties']       = array(
 			'order_id'  => self::reference( $order_id, 'order_id' ),
 			'refund_id' => self::reference( $refund_id, 'refund_id' ),
 			'partial'   => $partial,
+		);
+		$payload['extensions']       = array(
+			'commerce' => array(
+				'refund_amount' => self::money( $amount ),
+				'currency'      => self::currency( $currency ),
+			),
 		);
 
 		return $payload;
@@ -131,7 +142,8 @@ final class Voris_Payload {
 			 * context, so those are null. `hostname` is the exception: it is the site's
 			 * own host, sent so Voris can classify a dev/preview store out of billing
 			 * (contract §Required fields; ach001-amendments Phase 1). `extensions` is the
-			 * one `.optional()` field and is deliberately omitted.
+			 * one `.optional()` field and is omitted here; only a refund adds it, for its
+			 * commerce block (A124 CL6).
 			 */
 			'url'               => null,
 			'hostname'          => self::site_host(),
@@ -167,21 +179,6 @@ final class Voris_Payload {
 		$host = wp_parse_url( home_url(), PHP_URL_HOST );
 
 		return ( is_string( $host ) && '' !== $host ) ? $host : null;
-	}
-
-	/**
-	 * Decide the sign of a revenue correction.
-	 *
-	 * Isolated deliberately: ingest accepts a negative `revenue_amount`, but if
-	 * Voris-side rollups ever mishandle negatives the fallback is to send a
-	 * positive amount and resolve the sign from `event_name`. That change lands
-	 * here and nowhere else.
-	 *
-	 * @param float $amount Refunded amount, in any sign.
-	 * @return float
-	 */
-	private static function correction_amount( float $amount ): float {
-		return -self::money( $amount );
 	}
 
 	/**

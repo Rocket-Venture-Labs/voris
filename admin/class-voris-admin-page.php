@@ -506,7 +506,7 @@ final class Voris_Admin_Page {
 		if ( class_exists( 'WooCommerce' ) ) {
 			printf(
 				'<p>%s</p>',
-				esc_html__( 'From WooCommerce, for each completed order: the order total, its currency, and the number of items, with the order ID as a reference. Refunds are sent as negative corrections.', 'voris-privacy-first-analytics' )
+				esc_html__( 'From WooCommerce, for each completed order: the order total, its currency, and the number of items, with the order ID as a reference. For each refund: the refunded amount, its currency, and whether it was partial, with the order and refund IDs as references.', 'voris-privacy-first-analytics' )
 			);
 
 			$this->render_docs_link( 'wordpress-woocommerce', __( 'How WooCommerce revenue tracking works', 'voris-privacy-first-analytics' ) );
@@ -779,7 +779,7 @@ final class Voris_Admin_Page {
 		}
 
 		if ( 'purchase_not_delivered' === $reason ) {
-			return __( 'Not reported — Voris never received the original order, so a correction would show negative revenue against a sale it has no record of.', 'voris-privacy-first-analytics' );
+			return __( 'Not reported — Voris never received the original order, so the refund would be shown against a sale it has no record of.', 'voris-privacy-first-analytics' );
 		}
 
 		if ( 'refused_locally' === $reason ) {

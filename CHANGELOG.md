@@ -6,6 +6,27 @@ All notable changes to the Voris WordPress plugin. The format follows
 
 The user-facing summary lives in `readme.txt`; this file carries the engineering detail.
 
+## [Unreleased]
+
+## [1.2.0] — 2026-10-29
+
+Refunds now report in Voris's canonical refund shape, so Voris records them as their own figure instead
+of lowering revenue. No change to what data the plugin collects.
+
+### Changed
+
+- A WooCommerce refund now reports the canonical **`order_refunded`** event in Voris's canonical
+  refund shape (A124 refund half, CL6; rocketanalytics ADR-A142 / ADR-A133; closes #39). It
+  previously sent `refund` with a negative `revenue_amount`. Now `revenue_amount` and
+  `revenue_currency` are null, and the refunded magnitude travels, always positive, in
+  `extensions.commerce = { refund_amount, currency }`, the shape the Shopify integration already
+  sends. Voris reports it as a separate refunds figure and never nets it into gross revenue, so a
+  refund no longer lowers the store's revenue in Voris. The order/refund references and the
+  `partial` flag are unchanged, and no new data is collected. The refund delivery-log entries show
+  `order_refunded`, and the settings screen and delivery-log copy no longer describe refunds as
+  negative corrections. Refunds of orders delivered under the old `purchase` name still report
+  (refunds reconcile by order meta, never by event name).
+
 ## [1.1.0] — 2026-10-28
 
 The WordPress.org submission build. Renames the plugin to its directory name and slug, scopes the one
@@ -273,6 +294,7 @@ frozen Voris A067 partner surface.
   verified by hand on an HPOS store. The automated suite still runs against legacy post-meta storage,
   so nothing guards that path against regression.
 
+[1.2.0]: https://github.com/Rocket-Venture-Labs/voris-plugin-wordpress/releases/tag/v1.2.0
 [1.1.0]: https://github.com/Rocket-Venture-Labs/voris-plugin-wordpress/releases/tag/v1.1.0
 [1.0.0]: https://github.com/Rocket-Venture-Labs/voris-plugin-wordpress/releases/tag/v1.0.0
 [0.1.4]: https://github.com/Rocket-Venture-Labs/voris-plugin-wordpress/releases/tag/v0.1.4

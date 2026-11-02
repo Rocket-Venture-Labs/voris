@@ -4,7 +4,7 @@ For WordPress & WooCommerce.
 
 ![Voris](.wordpress-org/assets/banner-1544x500.png)
 
-![Version](https://img.shields.io/badge/version-1.1.0-2563eb)
+![Version](https://img.shields.io/badge/version-1.2.0-2563eb)
 ![WordPress](https://img.shields.io/badge/WordPress-6.6%2B-21759b)
 ![Tested up to](https://img.shields.io/badge/tested%20up%20to-7.1-21759b)
 ![PHP](https://img.shields.io/badge/PHP-8.1%2B-777bb4)
@@ -22,7 +22,7 @@ Voris is a brand of **Rocket Venture Labs B.V.** (Amsterdam, the Netherlands). R
 
 - **Connects in one click.** "Connect to Voris" opens Voris's approval page; the plugin binds this site and stores the connection for you — no copy-pasting IDs. You can still enter a site ID by hand if you prefer.
 - **Counts visits.** Every public page reports pageviews and Core Web Vitals to Voris, exactly as Voris's standard install does.
-- **Reports store revenue.** With WooCommerce active, a completed order reports the order total and currency **from your server** — so revenue is counted even behind ad-blockers, page caches, or off-site payment gateways. Refunds are reported as matching corrections.
+- **Reports store revenue.** With WooCommerce active, a completed order reports the order total and currency **from your server** — so revenue is counted even behind ad-blockers, page caches, or off-site payment gateways. Refunds are reported too, as their own figure rather than subtracted from your revenue.
 - **Keeps you ahead of your plan.** The settings screen shows your usage against your plan, with a nudge as you approach the limit. Figures come from Voris; no payment or checkout happens in WordPress.
 - **Stays out of the way.** If Voris is slow or unreachable, your pages, admin, and checkout carry on exactly as if the plugin were not installed. Failed deliveries retry in the background and, if they still can't be sent, are listed for you on the settings screen.
 
@@ -70,7 +70,7 @@ To install from source in the meantime:
 Version 1.1.0 renamed the plugin to **Voris - Privacy-first Analytics**, and it now installs in a `voris-privacy-first-analytics/` folder instead of `voris/`. Your settings carry over. If you installed 1.0.0:
 
 1. Deactivate the old **Voris** plugin first. The two copies cannot be active at the same time.
-2. Install and activate 1.1.0 as above.
+2. Install and activate the new version as above.
 3. Remove the old copy by deleting its `voris/` folder. If you would rather delete it from the Plugins screen, first tick **Keep my settings if I uninstall Voris** on Tools → Voris, because the old copy's uninstall would otherwise clear the settings the new one uses.
 
 ## Screenshots

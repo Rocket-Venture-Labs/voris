@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Voris - Privacy-first Analytics 1.0.0\n"
+"Project-Id-Version: Voris - Privacy-first Analytics 1.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/voris-privacy-first-analytics\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-28T09:26:47+00:00\n"
+"POT-Creation-Date: 2026-10-28T18:24:17+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: voris-privacy-first-analytics\n"
@@ -193,7 +193,7 @@ msgid "From the tracking tag: page views and Core Web Vitals (loading-speed meas
 msgstr ""
 
 #: admin/class-voris-admin-page.php:509
-msgid "From WooCommerce, for each completed order: the order total, its currency, and the number of items, with the order ID as a reference. Refunds are sent as negative corrections."
+msgid "From WooCommerce, for each completed order: the order total, its currency, and the number of items, with the order ID as a reference. For each refund: the refunded amount, its currency, and whether it was partial, with the order and refund IDs as references."
 msgstr ""
 
 #: admin/class-voris-admin-page.php:512
@@ -301,7 +301,7 @@ msgid "Dropped — too many events were waiting to be sent."
 msgstr ""
 
 #: admin/class-voris-admin-page.php:782
-msgid "Not reported — Voris never received the original order, so a correction would show negative revenue against a sale it has no record of."
+msgid "Not reported — Voris never received the original order, so the refund would be shown against a sale it has no record of."
 msgstr ""
 
 #: admin/class-voris-admin-page.php:786
