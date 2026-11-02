@@ -1,0 +1,53 @@
+# Excluded from the WordPress.org distribution (trunk/tags).
+# Ships (runtime only): voris-privacy-first-analytics.php, uninstall.php,
+# readme.txt, LICENSE, includes/, admin/, assets/, integrations/, languages/.
+
+# VCS & meta
+.git
+.gitignore
+.gitattributes
+.github
+
+# WordPress.org listing assets live in SVN /assets (synced from .wordpress-org),
+# never inside the plugin package itself.
+.wordpress-org
+
+# Spec-driven workflow artifacts & dev docs (not shipped)
+.specify
+.claude
+specs
+docs
+CLAUDE.md
+README.md
+CHANGELOG.md
+
+# Dev tooling configs
+phpcs.xml.dist
+phpcs.xml
+phpstan.neon
+phpunit.xml.dist
+.distignore
+
+# Tests
+tests
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.idea
+.vscode
+*.log
+
+# Test caches
+.phpunit.result.cache
+.phpunit.cache
+coverage
+
+# SVN deploy tooling + its scratch dirs (never ship these)
+deploy_script.sh
+# Dev-only build helper — stages a local zip, never runs live.
+bin
+dist
+svn-temp
+git-temp
+.distignore.rsync

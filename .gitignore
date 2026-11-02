@@ -1,0 +1,19 @@
+# Build output (bin/build.sh)
+dist/
+
+# SVN deploy scratch dirs (created/removed by deploy_script.sh)
+/svn-temp/
+/git-temp/
+/.distignore.rsync
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Claude Code local settings (may contain per-machine permission cache)
+.claude/settings.local.json
+
+# Logs
+*.log
