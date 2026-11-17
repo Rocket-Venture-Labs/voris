@@ -2,9 +2,9 @@
 
 For WordPress & WooCommerce.
 
-![Voris](.wordpress-org/assets/banner-1544x500.png)
+![Voris](.wordpress-org/banner-1544x500.png)
 
-![Version](https://img.shields.io/badge/version-1.2.0-2563eb)
+![Version](https://img.shields.io/badge/version-1.3.0-2563eb)
 ![WordPress](https://img.shields.io/badge/WordPress-6.6%2B-21759b)
 ![Tested up to](https://img.shields.io/badge/tested%20up%20to-7.1-21759b)
 ![PHP](https://img.shields.io/badge/PHP-8.1%2B-777bb4)
@@ -77,11 +77,11 @@ Version 1.1.0 renamed the plugin to **Voris - Privacy-first Analytics**, and it 
 
 **Settings — everything on one screen:** connect, see it's live, control tracking and uninstall behaviour, and read exactly what's shared with Voris.
 
-![Settings screen](.wordpress-org/assets/screenshot-1.png)
+![Settings screen](.wordpress-org/screenshot-1.png)
 
 **One-click connect:**
 
-![Connect to Voris](.wordpress-org/assets/screenshot-2.png)
+![Connect to Voris](.wordpress-org/screenshot-2.png)
 
 ## Links
 

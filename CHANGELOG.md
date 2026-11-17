@@ -8,6 +8,19 @@ The user-facing summary lives in `readme.txt`; this file carries the engineering
 
 ## [Unreleased]
 
+## [1.3.0] — 2026-11-16
+
+Version-number alignment only. No change to the plugin's code or to what it sends.
+
+### Changed
+
+- The WordPress.org listing went live on 2026-11-04 labelled 1.0.0, although its code was this repo's
+  1.2.0. 1.3.0 is the first release published to both channels under the same number, so a site that
+  installed the GitHub zip also receives the directory's updates (VOR-814).
+- WordPress.org releases are now published by hand over SVN. The dormant `deploy-wordpress-org.yml`
+  workflow is removed, and `docs/developers/releasing.md` holds the manual steps (#55). Nothing in the
+  shipped zip changes.
+
 ## [1.2.0] — 2026-10-29
 
 Refunds now report in Voris's canonical refund shape, so Voris records them as their own figure instead
@@ -294,6 +307,7 @@ frozen Voris A067 partner surface.
   verified by hand on an HPOS store. The automated suite still runs against legacy post-meta storage,
   so nothing guards that path against regression.
 
+[1.3.0]: https://github.com/Rocket-Venture-Labs/voris-plugin-wordpress/releases/tag/v1.3.0
 [1.2.0]: https://github.com/Rocket-Venture-Labs/voris-plugin-wordpress/releases/tag/v1.2.0
 [1.1.0]: https://github.com/Rocket-Venture-Labs/voris-plugin-wordpress/releases/tag/v1.1.0
 [1.0.0]: https://github.com/Rocket-Venture-Labs/voris-plugin-wordpress/releases/tag/v1.0.0
